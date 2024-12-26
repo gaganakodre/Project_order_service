@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Print Enquiry - Aerowave Technologies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            max-width: 200px;
+        }
+        .enquiry-details {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .enquiry-details th, .enquiry-details td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .enquiry-details th {
+            background-color: #f8f8f8;
+        }
+        @media print {
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="/static/logo.png" alt="Aerowave Technologies" class="logo">
+        <h2>Enquiry Details</h2>
+    </div>
+
+    <table class="enquiry-details">
+        <tr>
+            <th>Enquiry ID</th>
+            <td>{{ enquiry.enquiry_id }}</td>
+        </tr>
+        <tr>
+            <th>Client Name</th>
+            <td>{{ enquiry.client_name }}</td>
+        </tr>
+        <tr>
+            <th>Drawing Number</th>
+            <td>{{ enquiry.drawing_number }}</td>
+        </tr>
+        <tr>
+            <th>Part Number</th>
+            <td>{{ enquiry.part_number }}</td>
+        </tr>
+        <tr>
+            <th>Material Type</th>
+            <td>{{ enquiry.material_type }}</td>
+        </tr>
+        <tr>
+            <th>Material Spec</th>
+            <td>{{ enquiry.material_spec }}</td>
+        </tr>
+        <tr>
+            <th>Quantity</th>
+            <td>{{ enquiry.quantity }}</td>
+        </tr>
+        <tr>
+            <th>Unit Price</th>
+            <td>₹{{ "%.2f"|format(enquiry.unit_price) }}</td>
+        </tr>
+        <tr>
+            <th>Total Price</th>
+            <td>₹{{ "%.2f"|format(enquiry.total_price) }}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>{{ enquiry.enquiry_status }}</td>
+        </tr>
+        <tr>
+            <th>Remarks</th>
+            <td>{{ enquiry.remarks }}</td>
+        </tr>
+    </table>
+
+    <button onclick="window.print()" class="no-print" style="margin-top: 20px;">Print</button>
+</body>
+</html>

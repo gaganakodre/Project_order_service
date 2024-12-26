@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice - Aerowave Technologies</title>
+    <style>
+        /* Previous styles remain the same */
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+.logo {
+    height: 60px;
+    margin: 10px auto;
+    display: block;
+}
+
+.logo-container {
+    text-align: center;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.invoice-container {
+    max-width: 800px;
+    margin: 15px auto;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    background: #fff;
+}
+
+.company-header {
+    text-align: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #bb0b0b;
+    text-align: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #bb0b0b;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.company-header h1 {
+    color: #bb0b0b;
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.company-header p {
+    margin: 3px 0;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.invoice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.client-details, .invoice-details {
+    padding: 12px;
+    background: #f8f8f8;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.client-details h3, .invoice-details h3 {
+    color: #bb0b0b;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    font-size: 13px;
+}
+
+th {
+    background: #bb0b0b;
+    color: white;
+    font-weight: 500;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.items-table {
+    margin: 15px 0;
+}
+
+.totals {
+    float: right;
+    width: 300px;
+    margin: 15px 0;
+}
+
+.totals table {
+    background: #f8f8f8;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.totals tr:last-child {
+    background: #bb0b0b;
+    color: white;
+    font-weight: bold;
+}
+
+.terms {
+    clear: both;
+    margin-top: 15px;
+    border-top: 2px solid #bb0b0b;
+    padding-top: 12px;
+    font-size: 13px;
+}
+
+.terms h3 {
+    color: #bb0b0b;
+    margin: 10px 0 5px 0;
+    font-size: 16px;
+}
+
+.terms pre {
+    background: #f8f8f8;
+    padding: 8px;
+    border-radius: 4px;
+    font-family: 'Arial', sans-serif;
+    white-space: pre-wrap;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.signatures {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 40px;
+    font-size: 13px;
+}
+
+.btn {
+    background: #bb0b0b;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    margin-top: 15px;
+    transition: background 0.3s ease;
+}
+
+.btn:hover {
+    background: #990909;
+}
+
+@media print {
+    .no-print, .btn { 
+        display: none; 
+    }
+    body { 
+        margin: 0; 
+        padding: 10px; 
+        background: white;
+    }
+    .invoice-container {
+        box-shadow: none;
+        margin: 0;
+        padding: 15px;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <div class="company-header">
+             <img src="{{ url_for('static', filename='logo.png') }}" alt="Aerowave Technologies" class="logo">
+            <h1>{{ payment.company_name }}</h1>
+            <p>{{ payment.company_address }}</p>
+            <p>GST NO: 29ACGFA4296A1ZG</p>
+            <p>EMAIL: aerowavetechnologies.aw@gmail.com</p>
+        </div>
+
+        <div class="invoice-grid">
+            <div class="client-details">
+                <h3>Detail of Receiver (Billed to):</h3>
+                <p>{{ payment.client_address }}</p>
+            </div>
+            <div class="invoice-details">
+                <table>
+                    <tr>
+                        <td>INV No:</td>
+                        <td>{{ payment.invoice_number }}</td>
+                    </tr>
+                    <tr>
+                        <td>INV DATE:</td>
+                        <td>{{ payment.created_at.strftime('%d.%m.%Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td>DC No:</td>
+                        <td>{{ payment.dc_number }}</td>
+                    </tr>
+                    <tr>
+                        <td>DC DATE:</td>
+                        <td>{{ payment.dc_date }}</td>
+                    </tr>
+                    <tr>
+                        <td>PO No:</td>
+                        <td>{{ payment.po_number }}</td>
+                    </tr>
+                    <tr>
+                        <td>PO DATE:</td>
+                        <td>{{ payment.po_date }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>SL NO</th>
+                    <th>DESCRIPTION</th>
+                    <th>HSN</th>
+                    <th>UNIT PRICE</th>
+                    <th>QTY</th>
+                    <th>TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>{{ payment.product_name }}</td>
+                    <td>{{ payment.hsn_number }}</td>
+                    <td>₹{{ "%.2f"|format(payment.amount/payment.quantity) }}</td>
+                    <td>{{ payment.quantity }}</td>
+                    <td>₹{{ "%.2f"|format(payment.amount) }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="totals">
+            <table>
+                <tr>
+                    <td>Total Amount:</td>
+                    <td>₹{{ "%.2f"|format(payment.amount) }}</td>
+                </tr>
+                <tr>
+                    <td>CGST (9%):</td>
+                    <td>₹{{ "%.2f"|format(payment.gst_amount/2) }}</td>
+                </tr>
+                <tr>
+                    <td>SGST (9%):</td>
+                    <td>₹{{ "%.2f"|format(payment.gst_amount/2) }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Grand Total:</strong></td>
+                    <td>₹{{ "%.2f"|format(payment.amount + payment.gst_amount) }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="terms">
+            <h3>Bank Details:</h3>
+            <pre>{{ payment.bank_details }}</pre>
+
+            <h3>Terms and Conditions:</h3>
+            <p>{{ payment.payment_terms }}</p>
+
+            <div class="signatures">
+                <div>Receiver's Signatory</div>
+                <div>For AEROWAVE TECHNOLOGIES</div>
+            </div>
+        </div>
+
+        <button class="no-print btn" onclick="window.print()">Print Invoice</button>
+    </div>
+</body>
+</html>
